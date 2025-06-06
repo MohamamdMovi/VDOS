@@ -1,4 +1,4 @@
-## 📄 `README.md` برای `step01_assembler`
+
 
 ````markdown
 # Step 01: Simple Assembler and Virtual Machine for VDOS 🧠💾
