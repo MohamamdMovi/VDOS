@@ -1,6 +1,6 @@
 
 
-````markdown
+
 # Step 01: Simple Assembler and Virtual Machine for VDOS 🧠💾
 
 ## 🎯 Goal
@@ -88,5 +88,87 @@ python vm.py
 **Started:** 2025-06-06
 **Stage:** ✅ Completed – Assembler + VM Functional
 
+---
+# Step 02: Real Bootloader for VDOS 💽🧠
+
+## 🎯 Goal
+Create a **real boot sector** that runs directly on virtual hardware, prints a message via BIOS interrupts, and halts the CPU.
+
+---
+
+## ⚙️ How It Works
+
+When a PC boots, BIOS loads the first sector (512 bytes) of the bootable device into memory at `0x7C00` and jumps to it.
+
+This bootloader:
+- Displays a welcome message using BIOS interrupt `int 0x10`
+- Halts the CPU
+- Includes the required boot signature `0xAA55`
+
+---
+
+## 🧾 Code Overview (boot.asm)
+
+```nasm
+[BITS 16]
+[ORG 0x7C00]
+
+start:
+    mov si, message
+
+print_loop:
+    lodsb
+    or al, al
+    jz hang
+    mov ah, 0x0E
+    int 0x10
+    jmp print_loop
+
+hang:
+    cli
+    hlt
+
+message db "🟢 VDOS Booting Successfully!", 0
+times 510 - ($ - $$) db 0
+dw 0xAA55
+````
+
+---
+
+## 🧪 How to Build & Run
+
+### 🔧 Build with NASM
+
+```bash
+nasm -f bin boot.asm -o boot.img
 ```
+
+### 🚀 Run with QEMU
+
+```bash
+qemu-system-x86_64 -drive format=raw,file=boot.img
+```
+
+You should see:
+
+```
+🟢 VDOS Booting Successfully!
+```
+
+---
+
+## 💡 Concepts Covered
+
+* Real Mode (16-bit)
+* BIOS interrupts
+* Boot sector layout (ORG 0x7C00 + signature 0xAA55)
+* ASCII output via VGA teletype
+
+---
+
+## 📅 Date
+
+**Completed:** 2025-06-06
+**Next Step:** ⌨ Keyboard interrupts + Shell + File loading
+
 
