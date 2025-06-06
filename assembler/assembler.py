@@ -39,10 +39,17 @@ def assemble_file(file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
 
-      bytecode = []
+    bytecode = []
     for line in lines:
         assembled = assemble_line(line)
         if assembled:
             bytecode.append(assembled)
 
-    return bytecode   
+    return bytecode
+
+if __name__ == "__main__":
+    bytecode = assemble_file("example.asm")
+    with open("program.vdos", "w") as f:
+        for line in bytecode:
+            f.write(line + "\n")
+    print("✅ Bytecode written to program.vdos")
