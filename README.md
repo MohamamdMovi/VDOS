@@ -172,3 +172,98 @@ You should see:
 **Next Step:** ⌨ Keyboard interrupts + Shell + File loading
 
 
+دمت گرم محمد جان! 💪
+بزن بریم برای مستندسازی حرفه‌ای مرحله ۳:
+
+---
+
+
+## 📄 README.md for `step03_keyboard_shell`
+
+
+# Step 03: Minimal Shell with Keyboard Input ⌨️🧠
+
+## 🎯 Goal
+
+In this step, we simulate an early shell by:
+- Displaying a welcome message
+- Reading raw keyboard input
+- Echoing user input in real-time
+
+This mimics how early OSes like MS-DOS interacted with the user via BIOS services.
+
+---
+
+## 📂 Files
+
+| File        | Description                              |
+|-------------|------------------------------------------|
+| `shell.asm` | 16-bit x86 assembly for the VDOS shell   |
+| `shell.img` | Bootable binary image (512 bytes)        |
+
+---
+
+## ⚙️ Key BIOS Interrupts Used
+
+| Interrupt | Purpose              |
+|-----------|----------------------|
+| `int 10h` | Text output to screen|
+| `int 16h` | Keyboard input       |
+
+---
+
+## 💻 Code Behavior
+
+- Program starts at `0x7C00`
+- Prints `"Welcome to VDOS Shell"` message
+- Waits for a keypress and immediately prints it
+- Repeats infinitely to simulate an interactive loop
+
+---
+
+## 🧪 How to Run
+
+### Build the shell image:
+
+```bash
+nasm -f bin shell.asm -o shell.img
+````
+
+### Run in QEMU:
+
+```bash
+qemu-system-x86_64 -drive format=raw,file=shell.img
+```
+
+---
+
+## ✅ Output Example
+
+```
+🔷 Welcome to VDOS Shell
+Type anything:
+> [you type: hello]
+> hello
+```
+
+---
+
+## 📚 Concepts Learned
+
+* Real Mode keyboard interrupts (`int 16h`)
+* VGA text mode output (`int 10h`)
+* Shell loop simulation
+* Bootable image creation with NASM
+
+---
+
+## ⏭️ Next Steps
+
+* Implement simple command parsing (e.g., `help`, `clear`)
+* Start loading static files from floppy image
+* Begin working with file systems like FAT12
+
+📅 Completed on: 2025-06-06
+
+````
+
